@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greeting Widget</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+  }
+  .rectangle {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 300px;
+    position: relative;
+  }
+  .rectangle p {
+    margin: 10px 0;
+  }
+  #greeting-text {
+    font-size: 2em;
+  }
+  #date-text, #time-text {
+    font-size: 1.2em;
+  }
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 9px;
+  }
+</style>
+</head>
+<body>
+<div class="rectangle">
+  <p id="greeting-text">Good Morning!</p>
+  <p id="date-text"></p>
+  <p id="time-text"></p>
+  <p class="footer">Nina Chania KAMIKAZI</p>
+</div>
+<script>
+  function updateWidget() {
+    const now = new Date();
+    const gmt2Time = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 2 * 3600000);
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    const dateStr = gmt2Time.toLocaleDateString('en-US', options);
+    const timeStr = gmt2Time.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    let greeting;
+    const hours = gmt2Time.getHours();
+    if (hours < 12) {
+      greeting = "Good Morning!";
+    } else if (hours < 18) {
+      greeting = "Good Afternoon!";
+    } else {
+      greeting = "Good Evening!";
+    }
+
+    document.getElementById('greeting-text').innerText = greeting;
+    document.getElementById('date-text').innerText = dateStr;
+    document.getElementById('time-text').innerText = timeStr;
+  }
+
+  updateWidget();
+  setInterval(updateWidget, 1000); // Update every second
+</script>
+</body>
+</html>
